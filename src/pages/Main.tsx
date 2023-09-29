@@ -5,10 +5,10 @@ import {
   Property,
   proxyFetch,
   LoadingSpinner,
-  HorizontalDivider,
   useDeskproAppEvents,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
+import { createClient } from "../soap";
 
 /*
     Note: the following page component contains example code, please remove the contents of this component before you
@@ -17,10 +17,7 @@ import {
 */
 export const Main = () => {
   const [ticketContext, setTicketContext] = useState<Context | null>(null);
-
-  const [examplePosts, setExamplePosts] = useState<
-    { id: string; title: string }[]
-  >([]);
+  const [result, setResult] = useState<null | string>(null);
 
   // Add a "refresh" button @see https://support.deskpro.com/en-US/guides/developers/app-elements
   useInitialisedDeskproAppClient((client) => {
@@ -33,24 +30,33 @@ export const Main = () => {
     onChange: setTicketContext,
   });
 
-  // Use the apps proxy to fetch data from a third party
-  // API @see https://support.deskpro.com/en-US/guides/developers/app-proxy
-  useInitialisedDeskproAppClient((client) =>
+  useInitialisedDeskproAppClient((client) => {
     (async () => {
+      // Create our proxy fetch client
       const fetch = await proxyFetch(client);
 
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/posts"
-      );
+      // pass the proxy fetch into the newly created SOAP client
+      createClient(fetch, 'https://securedwebapp.com/api/service.asmx?WSDL', (err, soapClient) => {
 
-      const posts = await response.json();
+        // make a SOAP RPC call, @see https://securedwebapp.com/api/service.asmx
+        // note that UserName and Password are always sent as arguments for each RPC, so append any extra RPC arguments after these
+        soapClient.GetCustomers({ UserName: "__username__", Password: "__password__" }, (err, result) => {
 
-      setExamplePosts(posts.slice(0, 3));
-    })()
-  );
+          // do something  with the error or result
+          console.log(err, result);
+
+          // let's send this to the UI too
+          setResult(result);
+
+        });
+
+      })
+
+    })();
+  }, [createClient, proxyFetch, setResult]);
 
   // If we don't have a ticket context yet, show a loading spinner
-  if (ticketContext === null) {
+  if (ticketContext === null || result === null) {
     return <LoadingSpinner />;
   }
 
@@ -58,19 +64,10 @@ export const Main = () => {
   // ticket @see https://support.deskpro.com/en-US/guides/developers/targets and third party API
   return (
     <>
-      <H1>Ticket Data</H1>
-      <Stack gap={12} vertical>
-        <Property label="Ticket ID" text={ticketContext.data.ticket.id} />
-        <Property label="Ticket Subject" text={ticketContext.data.ticket.subject}/>
-      </Stack>
-      <HorizontalDivider width={2} />
-      <H1>Example Posts</H1>
-      {examplePosts.map((post) => (
-        <div key={post.id}>
-          <Property label="Post Title" text={post.title} />
-          <HorizontalDivider width={2} />
-        </div>
-      ))}
+      <H1>Kashflow Customer</H1>
+      <pre>
+        {JSON.stringify(result, null, 3)}
+      </pre>
     </>
   );
 };

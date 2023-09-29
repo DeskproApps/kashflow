@@ -8,20 +8,27 @@
   "hasDevMode": true,
   "targets": [{ "target": "ticket_sidebar", "entrypoint": "index.html" }],
   "settings": {
-    "example": {
-      "title": "Example Setting",
-      "description": "Example backend only setting",
+    "username": {
+      "title": "Username",
       "type": "string",
-      "isRequired": false,
-      "isBackendOnly": true
+      "isRequired": true,
+      "isBackendOnly": true,
+      "order": 10
+    },
+    "password": {
+      "title": "Password",
+      "type": "string",
+      "isRequired": true,
+      "isBackendOnly": true,
+      "order": 20
     }
   },
   "proxy": {
     "whitelist": [
       {
-        "url": "https://jsonplaceholder.typicode.com/.*",
-        "methods": ["GET"],
-        "timeout": 20
+        "url": "https://securedwebapp.com/.*",
+        "methods": ["GET", "POST"],
+        "timeout": 30
       }
     ]
   }
