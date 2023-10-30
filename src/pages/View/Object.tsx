@@ -118,7 +118,7 @@ export const ViewObject = () => {
       }
 
       client.setTitle(
-        (objectQuery.data as IInvoice[])[0].InvoiceNumber.toString()
+        (objectQuery.data as IInvoice[])[0].InvoiceNumber?.toString()
       );
     },
     [objectQuery.isSuccess, objectView, objectName]

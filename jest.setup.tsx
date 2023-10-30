@@ -82,8 +82,8 @@ jest.mock("./src/hooks/hooks.ts", () => ({
   }),
 }));
 
-jest.mock("./src/hooks/useQueryWithClient.ts", () => ({
-  ...jest.requireActual("./src/hooks/useQueryWithClient.ts"),
+jest.mock("./src/hooks/useReactQueryWithClient.ts", () => ({
+  ...jest.requireActual("./src/hooks/useReactQueryWithClient.ts"),
   useQueryWithClient: (queryKey: string, queryFn: () => any, options: any) => {
     queryKey;
     options;
