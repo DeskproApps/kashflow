@@ -1,0 +1,46 @@
+{
+  "create": [
+    {}
+  ],
+  "single": [
+    [
+      {
+        "name": "Description",
+        "label": "",
+        "type": "text"
+      },
+      {
+        "name": "LineID",
+        "label": "Line ID",
+        "type": "text"
+      },
+      {
+        "name": "Amount",
+        "label": "",
+        "type": "amount-lineitem"
+      }
+    ],
+    [
+      {
+        "name": "Quantity",
+        "label": "Quantity",
+        "type": "number"
+      },
+      {
+        "name": "Rate",
+        "label": "Rate",
+        "type": "currency"
+      },
+      {
+        "name": "VatRate",
+        "label": "Tax",
+        "type": "percentage"
+      },
+      {
+        "name": "ProductName",
+        "label": "Product Name",
+        "type": "text"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "titleKeyName": "Id",
+  "idKey": "Id",
+  "internalUrl": "/view/list/Bill/",
+  "internalChildUrl": "/view/single/Bill/",
+  "title": "Bill",
+  "single": [
+    [
+      {
+        "name": "",
+        "label": "",
+        "type": "lineitem"
+      }
+    ],
+    [
+      {
+        "name": "TxnTaxDetail.TotalTax",
+        "label": "Total Tax",
+        "type": "key"
+      }
+    ],
+    [
+      {
+        "name": "TotalAmt",
+        "label": "Total",
+        "type": "currency"
+      }
+    ],
+    [
+      {
+        "name": "PrintStatus",
+        "label": "Print Status",
+        "type": "text"
+      }
+    ],
+    [
+      {
+        "name": "DueDate",
+        "label": "Due Date",
+        "type": "date"
+      }
+    ],
+    [
+      {
+        "name": "CustomerMemo.value",
+        "label": "Customer Note",
+        "type": "key"
+      }
+    ]
+  ],
+  "list": [
+    [
+      {
+        "name": "TotalAmt",
+        "label": "Total",
+        "type": "currency"
+      },
+      {
+        "name": "",
+        "label": "Email",
+        "type": "text"
+      }
+    ]
+  ]
+}

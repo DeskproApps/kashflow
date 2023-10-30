@@ -1,73 +1,171 @@
-import { useState } from "react";
-import { H1, Stack } from "@deskpro/deskpro-ui";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-nocheck
 import {
-  Context,
-  Property,
-  proxyFetch,
-  LoadingSpinner,
   useDeskproAppEvents,
+  useDeskproLatestAppContext,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
-import { createClient } from "../soap";
+import { H1, Stack } from "@deskpro/deskpro-ui";
+import { useEffect, useState } from "react";
+import { FieldMapping } from "../components/FieldMapping/FieldMapping";
+import { LoadingSpinnerCenter } from "../components/LoadingSpinnerCenter/LoadingSpinnerCenter";
 
-/*
-    Note: the following page component contains example code, please remove the contents of this component before you
-    develop your app. For more information, please refer to our apps
-    guides @see https://support.deskpro.com/en-US/guides/developers/anatomy-of-an-app
-*/
+import { useNavigate } from "react-router-dom";
+import {
+  getCustomerById,
+  getCustomersByEmail,
+  getInvoicesByCustomerId,
+} from "../api/api";
+import { useLinkCustomer } from "../hooks/hooks";
+import { useQueryWithClient } from "../hooks/useReactQueryWithClient";
+import customerJson from "../mapping/customer.json";
+import invoiceJson from "../mapping/invoice.json";
+
+import { ICustomer } from "../types/customer";
+import { IInvoice } from "../types/invoice";
+
 export const Main = () => {
-  const [ticketContext, setTicketContext] = useState<Context | null>(null);
-  const [result, setResult] = useState<null | string>(null);
+  const navigate = useNavigate();
+  const { context } = useDeskproLatestAppContext();
+  const [customerId, setCustomerId] = useState<string | null | undefined>(
+    undefined
+  );
 
-  // Add a "refresh" button @see https://support.deskpro.com/en-US/guides/developers/app-elements
+  const { getLinkedCustomer, unlinkCustomer } = useLinkCustomer();
+
   useInitialisedDeskproAppClient((client) => {
-    client.registerElement("myRefreshButton", { type: "refresh_button" });
-  });
+    client.setTitle("Kashflow");
 
-  // Listen for the "change" event and store the context data
-  // as local state @see https://support.deskpro.com/en-US/guides/developers/app-events
+    client.registerElement("homeButton", {
+      type: "home_button",
+    });
+
+    client.deregisterElement("menuButton");
+
+    client.deregisterElement("link");
+
+    client.deregisterElement("plusButton");
+
+    client.registerElement("menuButton", {
+      type: "menu",
+      items: [
+        {
+          title: "Unlink Customer",
+          payload: {
+            type: "changePage",
+            page: "/",
+          },
+        },
+      ],
+    });
+
+    client.deregisterElement("editButton");
+
+    client.registerElement("refreshButton", {
+      type: "refresh_button",
+    });
+  }, []);
+
   useDeskproAppEvents({
-    onChange: setTicketContext,
+    async onElementEvent(id) {
+      switch (id) {
+        case "menuButton":
+          unlinkCustomer().then(() => navigate("/findOrCreate"));
+          break;
+        case "homeButton":
+          navigate("/refresh");
+          break;
+      }
+    },
   });
 
-  useInitialisedDeskproAppClient((client) => {
+  useInitialisedDeskproAppClient(() => {
     (async () => {
-      // Create our proxy fetch client
-      const fetch = await proxyFetch(client);
+      if (!context) return;
 
-      // pass the proxy fetch into the newly created SOAP client
-      createClient(fetch, 'https://securedwebapp.com/api/service.asmx?WSDL', (err, soapClient) => {
+      const linkedCustomer = await getLinkedCustomer();
 
-        // make a SOAP RPC call, @see https://securedwebapp.com/api/service.asmx
-        // note that UserName and Password are always sent as arguments for each RPC, so append any extra RPC arguments after these
-        soapClient.GetCustomers({ UserName: "__username__", Password: "__password__" }, (err, result) => {
+      if (!linkedCustomer || linkedCustomer.length === 0) {
+        setCustomerId(null);
 
-          // do something  with the error or result
-          console.log(err, result);
+        return;
+      }
 
-          // let's send this to the UI too
-          setResult(result);
-
-        });
-
-      })
-
+      setCustomerId(linkedCustomer[0]);
     })();
-  }, [createClient, proxyFetch, setResult]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context]);
 
-  // If we don't have a ticket context yet, show a loading spinner
-  if (ticketContext === null || result === null) {
-    return <LoadingSpinner />;
+  const customerQuery = useQueryWithClient(
+    ["customer", customerId],
+    (client) =>
+      customerId === null
+        ? getCustomersByEmail(client, context?.data.user.primaryEmail)
+        : getCustomerById(client, customerId as string),
+    {
+      enabled: customerId !== undefined && !!context?.data.user.primaryEmail,
+      onError: () => unlinkCustomer().then(() => navigate("/findOrCreate")),
+    }
+  );
+
+  const invoicesByCustomerIdQuery = useQueryWithClient(
+    ["invoicesByCustomerId", customerQuery.isSuccess],
+    (client) =>
+      getInvoicesByCustomerId(
+        client,
+        customerQuery.data?.[0].CustomerID as number
+      ),
+    {
+      enabled: !!customerQuery.data?.[0].CustomerID,
+    }
+  );
+
+  if (!customerQuery.data && customerQuery.isSuccess) navigate("/findOrCreate");
+
+  useEffect(() => {
+    if (customerQuery.isError) {
+      navigate("/findOrCreate");
+    }
+  }, [customerQuery, navigate]);
+
+  const invoices = invoicesByCustomerIdQuery.data;
+
+  if (customerQuery.isFetching || invoicesByCustomerIdQuery.isFetching) {
+    return <LoadingSpinnerCenter />;
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const customer = customerQuery.data;
+
+  if (!customer && (customerQuery.isSuccess || customerQuery.isError)) {
+    return (
+      <H1>No customer found under email {context?.data.user.primaryEmail}</H1>
+    );
   }
 
-  // Show some information about a given
-  // ticket @see https://support.deskpro.com/en-US/guides/developers/targets and third party API
+  if (!customerQuery.isSuccess || !invoicesByCustomerIdQuery.isSuccess)
+    return <div></div>;
+
   return (
-    <>
-      <H1>Kashflow Customer</H1>
-      <pre>
-        {JSON.stringify(result, null, 3)}
-      </pre>
-    </>
+    <Stack style={{ width: "100%" }} vertical gap={10}>
+      <FieldMapping
+        fields={customer ?? []}
+        metadata={customerJson.single}
+        idKey={customerJson.idKey}
+        internalChildUrl={customerJson.internalChildUrl}
+        externalChildUrl={customerJson.externalUrl}
+        childTitleAccessor={(e: ICustomer) => e.Name[0]}
+      />
+      <FieldMapping
+        fields={invoices ?? []}
+        metadata={invoiceJson.list}
+        idKey={invoiceJson.idKey}
+        title={`Invoices (${invoices.length})`}
+        internalUrl={invoiceJson.internalUrl + customerId}
+        externalUrl={invoiceJson.externalUrl}
+        internalChildUrl={invoiceJson.internalChildUrl}
+        externalChildUrl={invoiceJson.externalChildUrl}
+        childTitleAccessor={(e: IInvoice) => e.InvoiceNumber.toString()}
+      />
+    </Stack>
   );
 };

@@ -1,0 +1,90 @@
+{
+  "titleKeyName": "Name",
+  "idKey": "CustomerID",
+  "externalUrl": "https://app.kashflow.com/v3/#/customers/__Code__",
+  "externalChildUrl": "https://app.kashflow.com/v3/#/customers/__Code__/edit",
+  "internalChildUrl": "/view/single/Customer/",
+  "title": "Customer",
+  "create": [
+    {
+      "name": "Name",
+      "label": "Name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "Email",
+      "label": "Email",
+      "type": "text"
+    },
+    {
+      "name": "Telephone",
+      "label": "Phone",
+      "type": "tel"
+    },
+    {
+      "name": "Address1",
+      "label": "Address Line",
+      "type": "text"
+    },
+    {
+      "name": "Postcode",
+      "label": "Postal Code",
+      "type": "text"
+    },
+    {
+      "name": "Address4",
+      "label": "City/State/Region",
+      "type": "text"
+    },
+    {
+      "name": "CountryName",
+      "label": "Country",
+      "type": "text"
+    }
+  ],
+  "single": [
+    [
+      {
+        "name": "Code",
+        "label": "Code",
+        "type": "text-array"
+      }
+    ],
+    [
+      {
+        "name": "Email",
+        "label": "Email",
+        "type": "text-array"
+      }
+    ],
+    [
+      {
+        "name": "Telephone",
+        "label": "Phone",
+        "type": "number-array"
+      }
+    ],
+    [
+      {
+        "name": "BillAddr",
+        "label": "Billing Address",
+        "type": "address"
+      }
+    ]
+  ],
+  "list": [
+    [
+      {
+        "name": "Telephone",
+        "label": "Telephone",
+        "type": "number-array"
+      },
+      {
+        "name": "Email",
+        "label": "Email",
+        "type": "text-array"
+      }
+    ]
+  ]
+}
