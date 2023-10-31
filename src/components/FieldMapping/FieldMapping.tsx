@@ -1,13 +1,13 @@
 import {
   ExternalIconLink,
   Property,
+  PropertyRow,
   useDeskproAppTheme,
 } from "@deskpro/app-sdk";
 import { ReactElement } from "react";
 import { StyledLink } from "../../styles";
 import { IJson } from "../../types/json";
 import { useMapFieldValues } from "../../hooks/mapFieldValues";
-import { PropertyRow } from "../PropertyRow/PropertyRow";
 import { AppLogo } from "../AppLogo/AppLogo";
 import { HorizontalDivider } from "../HorizontalDivider/HorizontalDivider";
 import { H1, H2, H3, P11, P14, P5, Stack } from "@deskpro/deskpro-ui";
