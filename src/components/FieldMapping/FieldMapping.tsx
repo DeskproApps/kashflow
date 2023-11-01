@@ -122,6 +122,7 @@ export const FieldMapping = ({
               const usableFields = mapFieldValues(metadataFields, field).filter(
                 (e) => e.value
               );
+
               if (usableFields.some((e) => e.value === "lineitem")) {
                 return (
                   <FieldMapping

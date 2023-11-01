@@ -5,7 +5,7 @@ import {
   useDeskproLatestAppContext,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
-import { H1, Stack } from "@deskpro/deskpro-ui";
+import { Stack } from "@deskpro/deskpro-ui";
 import { useEffect, useState } from "react";
 import { FieldMapping } from "../components/FieldMapping/FieldMapping";
 import { LoadingSpinnerCenter } from "../components/LoadingSpinnerCenter/LoadingSpinnerCenter";
@@ -120,7 +120,8 @@ export const Main = () => {
     }
   );
 
-  if (!customerQuery.data && customerQuery.isSuccess) navigate("/findOrCreate");
+  if (!customerQuery.data && (customerQuery.isSuccess || customerQuery.isError))
+    navigate("/findOrCreate");
 
   useEffect(() => {
     if (customerQuery.isError) {
@@ -135,12 +136,6 @@ export const Main = () => {
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const customer = customerQuery.data;
-
-  if (!customer && (customerQuery.isSuccess || customerQuery.isError)) {
-    return (
-      <H1>No customer found under email {context?.data.user.primaryEmail}</H1>
-    );
-  }
 
   if (!customerQuery.isSuccess || !invoicesByCustomerIdQuery.isSuccess)
     return <div></div>;

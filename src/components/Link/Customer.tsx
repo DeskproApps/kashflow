@@ -75,7 +75,7 @@ export const LinkCustomer = () => {
                 linkCustomer((selectedCustomer as number)?.toString())
               }
               disabled={selectedCustomer == null}
-              text="Link Issue"
+              text="Link Customer"
             ></Button>
             <Button
               disabled={selectedCustomer == null}
