@@ -22,6 +22,7 @@ jest.mock("../../src/api/api", () => {
         Address2: ["Highway Patrol"],
         Address3: ["California"],
         Address4: ["XBY123"],
+        Postcode: ["12345"],
         CountryName: ["United States"],
         CustomerID: "1",
         Name: ["David"],

@@ -28,6 +28,7 @@ jest.mock("../../../src/api/api", () => {
             Line3: ["California"],
             Line4: ["XBY123"],
             CountryName: ["United States"],
+            Postcode: ["12345"],
           },
         ],
         Lines: [
