@@ -36,7 +36,10 @@ jest.mock("@deskpro/app-sdk", () => ({
     },
   }),
   useDeskproLatestAppContext: () => ({
-    context: { settings: {}, data: { user: { primaryEmail: "a@b.com" } } },
+    context: {
+      settings: {},
+      data: { user: { primaryEmail: "a@b.com", name: "asd" } },
+    },
   }),
   useDeskproAppEvents: (
     hooks: { [key: string]: (param: Record<string, unknown>) => void },

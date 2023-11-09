@@ -54,7 +54,7 @@ export const useLinkCustomer = () => {
       .list();
   }, [client, deskproUser]);
 
-  const unlinkCustomer = async () => {
+  const unlinkCustomer = useCallback(async () => {
     if (!context || !client) return;
 
     const id = (await getLinkedCustomer())?.[0];
@@ -64,7 +64,7 @@ export const useLinkCustomer = () => {
     await client
       .getEntityAssociation("kashflowCustomers", deskproUser.id)
       .delete(id);
-  };
+  }, [client, context, deskproUser, getLinkedCustomer]);
 
   return {
     getLinkedCustomer,

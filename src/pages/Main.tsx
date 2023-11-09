@@ -36,7 +36,7 @@ export const Main = () => {
   useInitialisedDeskproAppClient((client) => {
     client.setTitle("Kashflow");
 
-    client.deregisterElement("homeButton", {
+    client.registerElement("homeButton", {
       type: "home_button",
     });
 
@@ -66,18 +66,22 @@ export const Main = () => {
     });
   }, []);
 
-  useDeskproAppEvents({
-    async onElementEvent(id) {
-      switch (id) {
-        case "menuButton":
-          unlinkCustomer().then(() => navigate("/findOrCreate"));
-          break;
-        case "homeButton":
-          navigate("/refresh");
-          break;
-      }
+  useDeskproAppEvents(
+    {
+      async onElementEvent(id) {
+        switch (id) {
+          case "menuButton":
+            unlinkCustomer().then(() => navigate("/findOrCreate"));
+
+            break;
+          case "homeButton":
+            navigate("/redirect");
+            break;
+        }
+      },
     },
-  });
+    [unlinkCustomer]
+  );
 
   useInitialisedDeskproAppClient(() => {
     (async () => {

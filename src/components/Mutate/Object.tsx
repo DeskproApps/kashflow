@@ -201,14 +201,16 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
     },
     [objectName, isEditMode]
   );
-
   useEffect(() => {
     if (isEditMode || objectName !== "Customer" || !context) return;
+
     reset({
       Name: context.data.user.name,
       Email: context.data.user.primaryEmail,
     } as ICustomer);
-  }, [context, isEditMode, objectName, reset]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEditMode, objectName]);
 
   useEffect(() => {
     if (!submitMutation.isSuccess) return;
