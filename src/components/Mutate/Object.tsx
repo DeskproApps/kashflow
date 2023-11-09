@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   useDeskproAppEvents,
+  useDeskproLatestAppContext,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
 import { Button, H1, H5, Stack } from "@deskpro/deskpro-ui";
@@ -51,6 +52,7 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
   const navigate = useNavigate();
   const [schema, setSchema] = useState<ZodTypeAny | null>(null);
   const { linkCustomer } = useLinkCustomer();
+  const { context } = useDeskproLatestAppContext();
 
   const { getLinkedCustomer } = useLinkCustomer();
 
@@ -199,6 +201,14 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
     },
     [objectName, isEditMode]
   );
+
+  useEffect(() => {
+    if (isEditMode || objectName !== "Customer" || !context) return;
+    reset({
+      Name: context.data.user.name,
+      Email: context.data.user.primaryEmail,
+    } as ICustomer);
+  }, [context, isEditMode, objectName, reset]);
 
   useEffect(() => {
     if (!submitMutation.isSuccess) return;

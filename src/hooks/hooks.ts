@@ -4,6 +4,7 @@ import {
 } from "@deskpro/app-sdk";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { query } from "../utils/query";
 
 export const useLinkCustomer = () => {
   const { context } = useDeskproLatestAppContext();
@@ -35,6 +36,8 @@ export const useLinkCustomer = () => {
         ?.getEntityAssociation("kashflowCustomers", deskproUser.id)
         .set(customerId);
 
+      query.clear();
+
       navigate("/");
 
       setIsLinking(false);
@@ -43,32 +46,25 @@ export const useLinkCustomer = () => {
     [context, client]
   );
 
-  const unlinkCustomer = useCallback(async () => {
-    if (!context || !client) return;
-
-    (async () => {
-      const id = (
-        await client
-          .getEntityAssociation("kashflowCustomers", deskproUser.id)
-          .list()
-      )[0];
-
-      if (!id) return;
-
-      await client
-        .getEntityAssociation("kashflowCustomers", deskproUser.id)
-        .delete(id);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [client, context]);
-
   const getLinkedCustomer = useCallback(async () => {
     if (!client || !deskproUser) return;
 
     return await client
-      .getEntityAssociation("kashflowCustomers", deskproUser?.id)
+      .getEntityAssociation("kashflowCustomers", deskproUser.id)
       .list();
   }, [client, deskproUser]);
+
+  const unlinkCustomer = async () => {
+    if (!context || !client) return;
+
+    const id = (await getLinkedCustomer())?.[0];
+
+    if (!id) return;
+
+    await client
+      .getEntityAssociation("kashflowCustomers", deskproUser.id)
+      .delete(id);
+  };
 
   return {
     getLinkedCustomer,

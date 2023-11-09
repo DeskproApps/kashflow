@@ -36,7 +36,7 @@ export const Main = () => {
   useInitialisedDeskproAppClient((client) => {
     client.setTitle("Kashflow");
 
-    client.registerElement("homeButton", {
+    client.deregisterElement("homeButton", {
       type: "home_button",
     });
 
