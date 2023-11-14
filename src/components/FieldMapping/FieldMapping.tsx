@@ -91,7 +91,9 @@ export const FieldMapping = ({
               <div
                 style={{
                   cursor: "pointer",
-                  ...(fields.length > 0 ? { color: theme.colors.cyan100 } : {}),
+                  ...(fields.length > 0
+                    ? { color: theme?.colors.cyan100 }
+                    : {}),
                 }}
                 onClick={() => navigate(createPage)}
               >
