@@ -89,7 +89,10 @@ export const FieldMapping = ({
             )}
             {createPage && (
               <div
-                style={{ marginBottom: "2px", cursor: "pointer" }}
+                style={{
+                  cursor: "pointer",
+                  ...(fields.length > 0 ? { color: theme.colors.cyan100 } : {}),
+                }}
                 onClick={() => navigate(createPage)}
               >
                 <Icon icon={faPlus} />

@@ -164,6 +164,7 @@ export const Main = () => {
         internalChildUrl={invoiceJson.internalChildUrl}
         externalChildUrl={invoiceJson.externalChildUrl}
         childTitleAccessor={(e: IInvoice) => e.InvoiceNumber.toString()}
+        createPage="/create/Invoice"
       />
     </Stack>
   );
