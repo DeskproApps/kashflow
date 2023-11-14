@@ -38,6 +38,7 @@ import {
 } from "../../utils/utils";
 import { InputWithTitleRegister } from "../InputWithTitle/InputWithTitleRegister";
 import { DropdownSelect } from "../DropdownSelect/DropdownSelect";
+import { HorizontalDivider } from "../HorizontalDivider/HorizontalDivider";
 
 const customerInputs = CustomerJson;
 
@@ -338,7 +339,9 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
           <>
             {lines?.map((_, i) => (
               <>
-                <H5>Line Item {i + 1}</H5>
+                <H5 style={{ fontSize: "14px", marginTop: "2px" }}>
+                  Line Item {i + 1}
+                </H5>
                 <InputWithTitleRegister
                   register={register(`Lines.0.anyType.${i}.Quantity`, {
                     valueAsNumber: true,
@@ -407,6 +410,7 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
                     }
                   />
                 )}
+                <HorizontalDivider full />
               </>
             ))}
             <Stack justify="space-between" style={{ width: "100%" }}>

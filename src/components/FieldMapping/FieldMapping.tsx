@@ -10,9 +10,11 @@ import { IJson } from "../../types/json";
 import { useMapFieldValues } from "../../hooks/mapFieldValues";
 import { AppLogo } from "../AppLogo/AppLogo";
 import { HorizontalDivider } from "../HorizontalDivider/HorizontalDivider";
-import { H1, H2, H3, P11, P14, P5, Stack } from "@deskpro/deskpro-ui";
+import { H1, H2, H3, Icon, P11, P14, P5, Stack } from "@deskpro/deskpro-ui";
 import { substitutePlaceholders } from "../../utils/utils";
 import lineItemJson from "../../mapping/lineitem.json";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const SpaceBetweenFields = ({
   field: field,
@@ -48,6 +50,7 @@ type Props = {
   childTitleAccessor?: (field: any) => string;
   title?: string;
   hasCheckbox?: boolean;
+  createPage?: string;
 };
 
 export const FieldMapping = ({
@@ -60,9 +63,11 @@ export const FieldMapping = ({
   externalChildUrl,
   childTitleAccessor,
   title,
+  createPage,
 }: Props) => {
   const { theme } = useDeskproAppTheme();
   const { mapFieldValues } = useMapFieldValues();
+  const navigate = useNavigate();
 
   return (
     <Stack vertical gap={5} style={{ width: "100%" }}>
@@ -74,13 +79,23 @@ export const FieldMapping = ({
             alignItems: "center",
           }}
         >
-          {title && internalUrl ? (
-            <StyledLink title="title" to={internalUrl}>
-              {title}
-            </StyledLink>
-          ) : (
-            title && <H1>{title}</H1>
-          )}
+          <Stack style={{ textAlign: "center", alignItems: "center" }} gap={3}>
+            {title && internalUrl && fields.length > 0 ? (
+              <StyledLink title="title" to={internalUrl}>
+                {title}
+              </StyledLink>
+            ) : (
+              title && <H1>{title}</H1>
+            )}
+            {createPage && (
+              <div
+                style={{ marginBottom: "2px", cursor: "pointer" }}
+                onClick={() => navigate(createPage)}
+              >
+                <Icon icon={faPlus} />
+              </div>
+            )}
+          </Stack>
           {externalUrl && (
             <ExternalIconLink
               href={externalUrl}

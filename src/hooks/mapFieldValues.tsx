@@ -32,12 +32,12 @@ export const useMapFieldValues = () => {
 
           case "address":
             value = parseStringArray([
-              ...field.Address1,
-              ...field.Address2,
-              ...field.Address3,
-              ...field.Address4,
-              ...field.Postcode,
-              ...field.CountryName,
+              ...(field.Address1 ?? []),
+              ...(field.Address2 ?? []),
+              ...(field.Address3 ?? []),
+              ...(field.Address4 ?? []),
+              ...(field.Postcode ?? []),
+              ...(field.CountryName ?? []),
             ])
               .filter((e) => e)
               .reduce((a, c) => a + c + "\n", "");
@@ -46,12 +46,12 @@ export const useMapFieldValues = () => {
 
           case "address-invoice":
             value = parseStringArray([
-              ...field.DeliveryAddress[0].Line1,
-              ...field.DeliveryAddress[0].Line2,
-              ...field.DeliveryAddress[0].Line3,
-              ...field.DeliveryAddress[0].Line4,
-              ...field.DeliveryAddress[0].Postcode,
-              ...field.DeliveryAddress[0].CountryName,
+              ...(field.DeliveryAddress[0].Line1 ?? []),
+              ...(field.DeliveryAddress[0].Line2 ?? []),
+              ...(field.DeliveryAddress[0].Line3 ?? []),
+              ...(field.DeliveryAddress[0].Line4 ?? []),
+              ...(field.DeliveryAddress[0].Postcode ?? []),
+              ...(field.DeliveryAddress[0].CountryName ?? []),
             ])
               .filter((e) => e)
               .reduce((a, c) => a + c + "\n", "");

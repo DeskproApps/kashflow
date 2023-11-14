@@ -42,7 +42,7 @@ function App() {
                         path=":objectName/:objectId"
                         element={<EditObject />}
                       />
-                    </Route>{" "}
+                    </Route>
                     <Route path="/findOrCreate" element={<FindOrCreate />} />
                     <Route path="admin"></Route>
                     <Route path="view">
