@@ -1,12 +1,18 @@
 {
-  "name": "@deskpro-apps/my-app",
-  "title": "My App",
-  "description": "My Deskpro app",
-  "version": "0.0.6",
+  "name": "@deskpro-apps/kashflow",
+  "title": "Kashflow",
+  "description": "Simplify accounting, streamlines invoicing, and eases financial management for businesses, all effortlessly with Kashflow",
+  "version": "0.0.0",
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
-  "targets": [{ "target": "ticket_sidebar", "entrypoint": "index.html" }],
+  "serveUrl": "https://apps-cdn.deskpro-service.com/__name__/__version__",
+  "targets": [
+    {
+      "target": "user_sidebar",
+      "entrypoint": "index.html"
+    }
+  ],
   "settings": {
     "username": {
       "title": "Username",
@@ -23,11 +29,21 @@
       "order": 20
     }
   },
+  "entityAssociations": {
+    "kashflowCustomers": {
+      "entity": "person",
+      "type": "external_id",
+      "title": "Linked Kashflow Customers"
+    }
+  },
   "proxy": {
     "whitelist": [
       {
         "url": "https://securedwebapp.com/.*",
-        "methods": ["GET", "POST"],
+        "methods": [
+          "GET",
+          "POST"
+        ],
         "timeout": 30
       }
     ]

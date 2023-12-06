@@ -1,0 +1,92 @@
+{
+  "titleKeyName": "InvoiceNumber",
+  "idKey": "InvoiceNumber",
+  "title": "Invoice",
+  "internalChildUrl": "/view/single/Invoice/",
+  "externalUrl": "https://app.kashflow.com/v3/#/invoice",
+  "externalChildUrl": "https://app.kashflow.com/v3/#/invoice/__InvoiceNumber__",
+  "internalUrl": "/view/list/Invoice/",
+  "create": [
+    {
+      "name": "DueDate",
+      "label": "Due Date",
+      "type": "date"
+    }
+  ],
+  "single": [
+    [
+      {
+        "name": "lineitem",
+        "label": "lineitem",
+        "type": "lineitem"
+      }
+    ],
+    [
+      {
+        "name": "NetAmount",
+        "label": "Subtotal",
+        "type": "currency",
+        "singleLine": true
+      }
+    ],
+    [
+      {
+        "name": "VATAmount",
+        "label": "VAT Amount",
+        "type": "currency",
+        "singleLine": true
+      }
+    ],
+    [
+      {
+        "name": "VATAmount-NetAmount",
+        "label": "Total",
+        "type": "total",
+        "singleLine": true
+      }
+    ],
+    [
+      {
+        "name": "AmountPaid",
+        "label": "Amount Paid",
+        "type": "currency",
+        "singleLine": true
+      }
+    ],
+    [
+      {
+        "name": "CustomerName",
+        "label": "To",
+        "type": "text-array"
+      }
+    ],
+    [
+      {
+        "name": "DueDate",
+        "label": "Due Date",
+        "type": "date"
+      }
+    ],
+    [
+      {
+        "name": "DeliveryAddress",
+        "label": "Delivery Address",
+        "type": "address-invoice"
+      }
+    ]
+  ],
+  "list": [
+    [
+      {
+        "name": "NetAmount",
+        "label": "Amount",
+        "type": "currency"
+      },
+      {
+        "name": "DueDate",
+        "label": "Due Date",
+        "type": "date"
+      }
+    ]
+  ]
+}

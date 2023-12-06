@@ -1,4 +1,3 @@
-My App
-======
+# Kashflow App
 
-todo: add a description that will appear alongside your app in Deskpro admin
+Simplify accounting, streamlines invoicing, and eases financial management for businesses, all effortlessly with Kashflow
