@@ -1,18 +1,6 @@
-import { useDeskproAppTheme } from "@deskpro/app-sdk";
-import {
-  AnyIcon,
-  DivAsInput,
-  Dropdown as DropdownComponent,
-  DropdownTargetProps,
-  H1,
-  Label,
-  Stack,
-} from "@deskpro/deskpro-ui";
-import {
-  faCaretDown,
-  faCheck,
-  faExternalLinkAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { useDeskproAppTheme, Select } from "@deskpro/app-sdk";
+import { H1, Label, Stack } from "@deskpro/deskpro-ui";
+
 import { ReactNode, useMemo } from "react";
 type Props = {
   data?: {
@@ -21,19 +9,17 @@ type Props = {
   }[];
   onChange: (key: string) => void;
   title: string;
-  value: string | string[] | null;
+  value?: string;
   error: boolean;
   required?: boolean;
   multiple?: boolean;
 };
 export const DropdownSelect = ({
   data,
-  onChange,
   title,
   value,
-  error,
   required,
-  multiple,
+  onChange,
 }: Props) => {
   const { theme } = useDeskproAppTheme();
 
@@ -64,52 +50,12 @@ export const DropdownSelect = ({
           </Stack>
         )}
       </Stack>
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
-      <DropdownComponent<any, HTMLDivElement>
-        placement="bottom-start"
-        options={dataOptions.map((e) => ({
-          ...e,
-          selected: ["number", "string"].includes(typeof value)
-            ? e.value === value
-            : value?.includes(e.value),
-        }))}
-        fetchMoreText={"Fetch more"}
-        autoscrollText={"Autoscroll"}
-        selectedIcon={faCheck as AnyIcon}
-        externalLinkIcon={faExternalLinkAlt as AnyIcon}
-        onSelectOption={(option) => {
-          onChange(
-            multiple
-              ? value?.includes(option.value)
-                ? ((value as string[]) || []).filter((e) => option.value !== e)
-                : [...(value || []), option.value]
-              : option.value
-          );
-        }}
-      >
-        {({ targetProps, targetRef }: DropdownTargetProps<HTMLDivElement>) => (
-          <DivAsInput
-            error={error}
-            ref={targetRef}
-            {...targetProps}
-            variant="inline"
-            rightIcon={faCaretDown as AnyIcon}
-            placeholder="Enter value"
-            style={{ fontWeight: "400 !important" }}
-            value={
-              multiple
-                ? dataOptions
-                    .filter((e) => value?.includes(e.value))
-                    .reduce(
-                      (a, c, i, arr) =>
-                        a + `${c.key}${i === arr.length - 1 ? "" : ", "} `,
-                      ""
-                    )
-                : dataOptions.find((e) => e.value == value)?.key
-            }
-          />
-        )}
-      </DropdownComponent>
+      <Select
+        options={dataOptions}
+        value={value}
+        initValue={""}
+        onChange={(e) => onChange(e as string)}
+      />
     </Stack>
   );
 };

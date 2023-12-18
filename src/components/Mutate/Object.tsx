@@ -86,7 +86,7 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
   const lines = watch("Lines.0.anyType");
 
   const customer = useQueryWithClient(
-    ["customer", objectId as string],
+    ["mutateCustomer", objectId as string],
     (client) => getCustomerById(client, objectId as string),
     {
       enabled: isEditMode && objectName === "Customer",
@@ -94,7 +94,7 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
   );
 
   const invoice = useQueryWithClient(
-    ["invoice", objectId as string],
+    ["mutateInvoice", objectId as string],
     (client) => getInvoiceByInvoiceNumber(client, objectId as string),
     {
       enabled: isEditMode && objectName === "Invoice",

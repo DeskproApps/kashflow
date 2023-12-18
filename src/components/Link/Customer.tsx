@@ -1,9 +1,9 @@
 import {
   useDeskproAppEvents,
   useInitialisedDeskproAppClient,
+  Search,
 } from "@deskpro/app-sdk";
-import { AnyIcon, Button, Checkbox, Input, Stack } from "@deskpro/deskpro-ui";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { Button, Checkbox, Stack } from "@deskpro/deskpro-ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useDebounce from "../../hooks/debounce";
@@ -58,12 +58,10 @@ export const LinkCustomer = () => {
   return (
     <Stack gap={10} style={{ width: "100%" }} vertical>
       <Stack vertical gap={6} style={{ width: "100%" }}>
-        <Input
-          onChange={(e) => setPrompt(e.target.value)}
-          value={prompt}
-          placeholder="Enter Email Address"
-          type="text"
-          leftIcon={faMagnifyingGlass as AnyIcon}
+        <Search
+          label="Enter Email Address"
+          onChange={(e) => setPrompt(e)}
+          marginBottom={0}
         />
         <Stack vertical style={{ width: "100%" }} gap={5}>
           <Stack
