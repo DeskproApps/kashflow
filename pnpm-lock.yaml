@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@deskpro/app-sdk': 3.0.11
+  '@deskpro/app-sdk': 3.0.14
   '@deskpro/deskpro-ui': ^7.1.0
   '@fortawesome/free-solid-svg-icons': ^6.4.2
   '@fortawesome/react-fontawesome': ^0.2.0
@@ -54,7 +54,7 @@ specifiers:
   zod: ^3.22.2
 
 dependencies:
-  '@deskpro/app-sdk': 3.0.11_28f90d27577db33a1a7c86051b9ca67d
+  '@deskpro/app-sdk': 3.0.14_28f90d27577db33a1a7c86051b9ca67d
   '@deskpro/deskpro-ui': 7.4.0_ef56c1f84860007742baea2f789907e2
   '@fortawesome/free-solid-svg-icons': 6.4.2
   '@fortawesome/react-fontawesome': 0.2.0_react@18.2.0
@@ -523,8 +523,8 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@deskpro/app-sdk/3.0.11_28f90d27577db33a1a7c86051b9ca67d:
-    resolution: {integrity: sha512-bkwyjuAu+qoPv1JpDCRFH3q3jn8+02OhJnsD1+vPTlujQqR3F/OhmWErnE9B72QSRXyJXCeg+KC5JJ5pUnVELw==}
+  /@deskpro/app-sdk/3.0.14_28f90d27577db33a1a7c86051b9ca67d:
+    resolution: {integrity: sha512-T0c7VnWa9lJuhN7sp+rKntSWFzHFJJCHROrXrYT/YSG83lYuuUAqAMgD4dIgAnfEjyXrWamb+sC8ALG37bnwEA==}
     engines: {node: ^16.0.0}
     peerDependencies:
       '@types/react': ^18
