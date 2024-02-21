@@ -976,9 +976,9 @@ WSDL.prototype._xmlnsMap = function() {
             case "http://www.w3.org/2001/XMLSchema" : // xsd
                 continue;
         }
-        if (~ns.indexOf('http://schemas.xmlsoap.org/')) continue;
-        if (~ns.indexOf('http://www.w3.org/')) continue;
-        if (~ns.indexOf('http://xml.apache.org/')) continue;
+        if (ns.indexOf('http://schemas.xmlsoap.org/') === 0) continue;
+        if (ns.indexOf('http://www.w3.org/') === 0) continue;
+        if (ns.indexOf('http://xml.apache.org/') === 0) continue;
         str += ' xmlns:' + alias + '="' + ns + '"';
     }
     return str;
