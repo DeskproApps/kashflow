@@ -6,7 +6,7 @@
 import { Client } from "./client";
 import { open_wsdl } from "./wsdl";
 import crypto from "crypto";
-import bcrypt from "bcrypt";
+import decodeIO from "bcryptjs";
 import { WSDL } from "./wsdl";
 
 var _wsdlCache = {};
@@ -74,7 +74,7 @@ function WSSecurity(username, password, passwordType) {
 var passwordDigest = function (nonce, created, password) {
   // digest = bcrypt ( nonce + created + password )
   var rawNonce = new Buffer(nonce || "", "base64").toString("binary");
-  var passwordDigest = bcrypt.hashSync(rawNonce + created + password)
+  var passwordDigest = decodeIO.bcrypt.hashSync(rawNonce + created + password)
   return passwordDigest;
 };
 
