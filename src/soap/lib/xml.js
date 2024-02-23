@@ -1244,11 +1244,11 @@
     var quotRegEx = /&quot;/g;
     var aposRegEx = /&apos;/g;
 
-    str = str.replace(escAmpRegEx, "&");
     str = str.replace(escLtRegEx, "<");
     str = str.replace(escGtRegEx, ">");
     str = str.replace(quotRegEx, "\"");
     str = str.replace(aposRegEx, "'");
+    str = str.replace(escAmpRegEx, "&");
 
     return str;
   }

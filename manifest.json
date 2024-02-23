@@ -2,7 +2,7 @@
   "name": "@deskpro-apps/kashflow",
   "title": "Kashflow",
   "description": "Simplify accounting, streamlines invoicing, and eases financial management for businesses, all effortlessly with Kashflow",
-  "version": "1.0.5",
+  "version": "1.0.9",
   "scope": "agent",
   "isSingleInstall": false,
   "hasDevMode": true,
