@@ -21,6 +21,7 @@ import { FindOrCreate } from "./pages/FindOrCreate/FindOrCreate";
 import { ViewObject } from "./pages/View/Object";
 import { CreateObject } from "./pages/Create/Object";
 import { EditObject } from "./pages/Edit/Edit";
+import { VerifySettings } from "./pages/VerifySettings";
 
 function App() {
   return (
@@ -44,13 +45,13 @@ function App() {
                       />
                     </Route>
                     <Route path="/findOrCreate" element={<FindOrCreate />} />
-                    <Route path="admin"></Route>
                     <Route path="view">
                       <Route
                         path=":objectView/:objectName/:objectId"
                         element={<ViewObject key={Math.random()} />}
                       />
                     </Route>
+                    <Route path="/admin/verify_settings" element={<VerifySettings/>} />
                   </Route>
                 </Routes>
               </ErrorBoundary>
