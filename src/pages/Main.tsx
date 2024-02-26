@@ -2,6 +2,7 @@
 //@ts-nocheck
 import {
   useDeskproAppEvents,
+  useDeskproAppClient,
   useDeskproLatestAppContext,
   useInitialisedDeskproAppClient,
 } from "@deskpro/app-sdk";
@@ -26,10 +27,10 @@ import { IInvoice } from "../types/invoice";
 
 export const Main = () => {
   const navigate = useNavigate();
+  const { client } = useDeskproAppClient();
   const { context } = useDeskproLatestAppContext();
-  const [customerId, setCustomerId] = useState<string | null | undefined>(
-    undefined
-  );
+  const [customerId, setCustomerId] = useState<string | null | undefined>(undefined);
+  const deskproUser = context?.data.user;
 
   const { getLinkedCustomer, unlinkCustomer } = useLinkCustomer();
 
@@ -109,6 +110,15 @@ export const Main = () => {
     {
       enabled: customerId !== undefined && !!context?.data.user.primaryEmail,
       onError: () => unlinkCustomer().then(() => navigate("/findOrCreate")),
+      onSettled: (customers) => {
+        const customerId = customers?.[0].CustomerID;
+
+        if (client && deskproUser?.id) {
+          client
+            ?.getEntityAssociation("kashflowCustomers", deskproUser.id)
+            .set(customerId);
+        }
+      },
     }
   );
 
