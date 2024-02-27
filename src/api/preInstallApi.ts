@@ -1,29 +1,27 @@
 import { adminGenericProxyFetch, IDeskproClient } from "@deskpro/app-sdk";
+import { createClientAsync } from "../soap";
 import { ISettings } from "../types/settings";
+import { ICompany } from "../types/company";
+import { IError } from "./types";
 
-export const getAccessAndRefreshTokens = async (
-  settings: ISettings,
-  accessCode: string,
-  callbackUrl: string,
-  client: IDeskproClient
-) => {
+export const getCurrentCompany = async (client: IDeskproClient, settings: ISettings): Promise<ICompany> => {
   const fetch = await adminGenericProxyFetch(client);
+  const soap = await createClientAsync(fetch, "https://securedwebapp.com/api/service.asmx?WSDL");
 
-  return await fetch(
-    `https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        authorization: `Basic ${btoa(
-          `${settings?.client_id}:${settings?.client_secret}`
-        )}`,
+  return new Promise((resolve, reject) => {
+    soap.GetCompanyDetails(
+      { UserName: settings.username, Password: settings.password },
+      (err: Error, result: { GetCompanyDetailsResult: ICompany[] } & IError) => {
+        if (err) {
+          reject(err);
+        }
+
+        if (result.Status?.[0] === "NO") {
+          reject(result.StatusDetail?.[0]);
+        }
+
+        resolve(result.GetCompanyDetailsResult?.[0]);
       },
-      body: new URLSearchParams({
-        grant_type: "authorization_code",
-        code: accessCode as string,
-        redirect_uri: new URL(callbackUrl as string).toString(),
-      }),
-    }
-  ).then((res) => res.json());
+    );
+  });
 };
