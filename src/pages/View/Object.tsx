@@ -16,11 +16,11 @@ import { LoadingSpinnerCenter } from "../../components/LoadingSpinnerCenter/Load
 import { useQueryWithClient } from "../../hooks/useReactQueryWithClient";
 import customerJson from "../../mapping/customer.json";
 import invoiceJson from "../../mapping/invoice.json";
-
 import { H2 } from "@deskpro/deskpro-ui";
 import { makeFirstLetterUppercase } from "../../utils/utils";
 import { IInvoice } from "../../types/invoice";
 import { ICustomer } from "../../types/customer";
+import { Container } from "../../components/Layout";
 
 type AcceptedFunctions =
   | typeof getCustomerById
@@ -173,35 +173,51 @@ export const ViewObject = () => {
     return invoice;
   }, [objectName, objectQuery.data, objectView, productsWithSubProducts.data]);
 
-  if (!objectView || (objectView !== "list" && objectView !== "single"))
-    return <H2>Please use a accepted Object View</H2>;
+  if (!objectView || (objectView !== "list" && objectView !== "single")) {
+    return (
+      <Container>
+        <H2>Please use a accepted Object View</H2>
+      </Container>
+    );
+  }
 
   if (
     objectName !== "Customer" &&
     objectName !== "Invoice" &&
     objectName !== "Bill" &&
     objectName !== "PurchaseOrder"
-  )
-    return <H2>Please use an accepted Object</H2>;
+  ) {
+    return (
+      <Container>
+        <H2>Please use an accepted Object</H2>
+      </Container>
+    );
+  }
 
   if (!object || !correctJson) {
-    return <LoadingSpinnerCenter />;
+    return (
+      <Container>
+        <LoadingSpinnerCenter />
+      </Container>
+    );
   }
 
   return (
-    <FieldMapping
-      fields={object}
-      metadata={correctJson[objectView]}
-      childTitleAccessor={
-        objectView === "list" ? (e) => getTitle(e, objectName) : undefined
-      }
-      idKey={correctJson.idKey}
-      externalChildUrl={
-        objectView === "single" ? undefined : correctJson.externalChildUrl
-      }
-      internalChildUrl={
-        objectView === "single" ? undefined : correctJson.internalChildUrl
-      }
-    />
+    <Container>
+      <FieldMapping
+        fields={object}
+        metadata={correctJson[objectView]}
+        childTitleAccessor={
+          objectView === "list" ? (e) => getTitle(e, objectName) : undefined
+        }
+        idKey={correctJson.idKey}
+        externalChildUrl={
+          objectView === "single" ? undefined : correctJson.externalChildUrl
+        }
+        internalChildUrl={
+          objectView === "single" ? undefined : correctJson.internalChildUrl
+        }
+      />
+    </Container>
   );
 };

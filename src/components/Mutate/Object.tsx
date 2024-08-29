@@ -410,7 +410,7 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
                     }
                   />
                 )}
-                <HorizontalDivider full />
+                <HorizontalDivider />
               </>
             ))}
             <Stack justify="space-between" style={{ width: "100%" }}>

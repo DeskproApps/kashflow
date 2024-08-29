@@ -277,7 +277,7 @@ export const FieldMapping = ({
               }
             })}
           </Stack>
-          {<HorizontalDivider full />}
+          {<HorizontalDivider />}
         </Stack>
       ))}
     </Stack>

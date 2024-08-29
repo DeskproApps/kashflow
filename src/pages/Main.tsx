@@ -10,7 +10,6 @@ import { Stack } from "@deskpro/deskpro-ui";
 import { useEffect, useState } from "react";
 import { FieldMapping } from "../components/FieldMapping/FieldMapping";
 import { LoadingSpinnerCenter } from "../components/LoadingSpinnerCenter/LoadingSpinnerCenter";
-
 import { useNavigate } from "react-router-dom";
 import {
   getCustomerById,
@@ -21,9 +20,9 @@ import { useLinkCustomer } from "../hooks/hooks";
 import { useQueryWithClient } from "../hooks/useReactQueryWithClient";
 import customerJson from "../mapping/customer.json";
 import invoiceJson from "../mapping/invoice.json";
-
 import { ICustomer } from "../types/customer";
 import { IInvoice } from "../types/invoice";
+import { Container } from "../components/Layout";
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -155,27 +154,29 @@ export const Main = () => {
     return <div></div>;
 
   return (
-    <Stack style={{ width: "100%" }} vertical gap={10}>
-      <FieldMapping
-        fields={customer ?? []}
-        metadata={customerJson.single}
-        idKey={customerJson.idKey}
-        internalChildUrl={customerJson.internalChildUrl}
-        externalChildUrl={customerJson.externalUrl}
-        childTitleAccessor={(e: ICustomer) => e.Name[0]}
-      />
-      <FieldMapping
-        fields={invoices ?? []}
-        metadata={invoiceJson.list}
-        idKey={invoiceJson.idKey}
-        title={`Invoices (${invoices.length})`}
-        internalUrl={invoiceJson.internalUrl + customerId}
-        externalUrl={invoiceJson.externalUrl}
-        internalChildUrl={invoiceJson.internalChildUrl}
-        externalChildUrl={invoiceJson.externalChildUrl}
-        childTitleAccessor={(e: IInvoice) => e.InvoiceNumber.toString()}
-        createPage="/create/Invoice"
-      />
-    </Stack>
+    <Container>
+      <Stack style={{ width: "100%" }} vertical gap={10}>
+        <FieldMapping
+          fields={customer ?? []}
+          metadata={customerJson.single}
+          idKey={customerJson.idKey}
+          internalChildUrl={customerJson.internalChildUrl}
+          externalChildUrl={customerJson.externalUrl}
+          childTitleAccessor={(e: ICustomer) => e.Name[0]}
+        />
+        <FieldMapping
+          fields={invoices ?? []}
+          metadata={invoiceJson.list}
+          idKey={invoiceJson.idKey}
+          title={`Invoices (${invoices.length})`}
+          internalUrl={invoiceJson.internalUrl + customerId}
+          externalUrl={invoiceJson.externalUrl}
+          internalChildUrl={invoiceJson.internalChildUrl}
+          externalChildUrl={invoiceJson.externalChildUrl}
+          childTitleAccessor={(e: IInvoice) => e.InvoiceNumber.toString()}
+          createPage="/create/Invoice"
+        />
+      </Stack>
+    </Container>
   );
 };
