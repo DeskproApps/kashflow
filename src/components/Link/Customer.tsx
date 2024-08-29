@@ -56,73 +56,71 @@ export const LinkCustomer = () => {
   const customers = customersQuery.data;
 
   return (
-    <Stack gap={10} style={{ width: "100%" }} vertical>
-      <Stack vertical gap={6} style={{ width: "100%" }}>
-        <Search
-          label="Enter Email Address"
-          onChange={(e) => setPrompt(e)}
-          marginBottom={0}
-        />
-        <Stack vertical style={{ width: "100%" }} gap={5}>
-          <Stack
-            style={{ width: "100%", justifyContent: "space-between" }}
-            gap={5}
-          >
-            <Button
-              onClick={() =>
-                linkCustomer((selectedCustomer as number)?.toString())
-              }
-              disabled={selectedCustomer == null}
-              text="Link Customer"
-            ></Button>
-            <Button
-              disabled={selectedCustomer == null}
-              text="Cancel"
-              intent="secondary"
-              onClick={() => setSelectedCustomer(null)}
-            ></Button>
-          </Stack>
-          <HorizontalDivider full />
+    <>
+      <Search
+        label="Enter Email Address"
+        onChange={(e) => setPrompt(e)}
+        marginBottom={0}
+      />
+      <Stack vertical style={{ width: "100%" }} gap={5}>
+        <Stack
+          style={{ width: "100%", justifyContent: "space-between" }}
+          gap={5}
+        >
+          <Button
+            onClick={() =>
+              linkCustomer((selectedCustomer as number)?.toString())
+            }
+            disabled={selectedCustomer == null}
+            text="Link Customer"
+          ></Button>
+          <Button
+            disabled={selectedCustomer == null}
+            text="Cancel"
+            intent="secondary"
+            onClick={() => setSelectedCustomer(null)}
+          ></Button>
         </Stack>
-        {customersQuery.isFetching ? (
-          <LoadingSpinnerCenter />
-        ) : customersQuery.isSuccess &&
-          Array.isArray(customers) &&
-          customers?.length !== 0 ? (
-          <Stack vertical gap={5} style={{ width: "100%" }}>
-            {customers?.map((customer, i) => {
-              return (
-                <Stack key={i} gap={6} style={{ width: "100%" }}>
-                  <Stack style={{ marginTop: "2px" }}>
-                    <Checkbox
-                      checked={selectedCustomer === customer.CustomerID}
-                      onChange={() => {
-                        if (selectedCustomer == null) {
-                          setSelectedCustomer(customer.CustomerID);
-                        } else {
-                          setSelectedCustomer(null);
-                        }
-                      }}
-                    ></Checkbox>
-                  </Stack>
-                  <Stack style={{ width: "92%" }}>
-                    <FieldMapping
-                      fields={[customer]}
-                      hasCheckbox={true}
-                      metadata={CustomerJson.list}
-                      idKey={CustomerJson.idKey}
-                      externalChildUrl={CustomerJson.externalUrl}
-                      childTitleAccessor={(e) => e.Name[0]}
-                    />
-                  </Stack>
-                </Stack>
-              );
-            })}
-          </Stack>
-        ) : (
-          customersQuery.isSuccess && <Title>No Customers Found.</Title>
-        )}
+        <HorizontalDivider style={{ marginBottom: "8px" }} />
       </Stack>
-    </Stack>
+      {customersQuery.isFetching ? (
+        <LoadingSpinnerCenter />
+      ) : customersQuery.isSuccess &&
+        Array.isArray(customers) &&
+        customers?.length !== 0 ? (
+        <Stack vertical gap={5} style={{ width: "100%" }}>
+          {customers?.map((customer, i) => {
+            return (
+              <Stack key={i} gap={6} style={{ width: "100%" }}>
+                <Stack style={{ marginTop: "2px" }}>
+                  <Checkbox
+                    checked={selectedCustomer === customer.CustomerID}
+                    onChange={() => {
+                      if (selectedCustomer == null) {
+                        setSelectedCustomer(customer.CustomerID);
+                      } else {
+                        setSelectedCustomer(null);
+                      }
+                    }}
+                  ></Checkbox>
+                </Stack>
+                <Stack style={{ width: "92%" }}>
+                  <FieldMapping
+                    fields={[customer]}
+                    hasCheckbox={true}
+                    metadata={CustomerJson.list}
+                    idKey={CustomerJson.idKey}
+                    externalChildUrl={CustomerJson.externalUrl}
+                    childTitleAccessor={(e) => e.Name[0]}
+                  />
+                </Stack>
+              </Stack>
+            );
+          })}
+        </Stack>
+      ) : (
+        customersQuery.isSuccess && <Title>No Customers Found.</Title>
+      )}
+    </>
   );
 };

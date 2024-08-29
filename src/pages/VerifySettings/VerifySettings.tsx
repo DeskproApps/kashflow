@@ -41,7 +41,7 @@ const VerifySettings: FC = () => {
   }, [client]);
 
   return (
-    <div style={{ margin: "0 -8px" }}>
+    <>
       <Stack align="baseline">
         <Button
           text="Verify Settings"
@@ -56,7 +56,7 @@ const VerifySettings: FC = () => {
         )}
       </Stack>
       {error && <Invalid type="p1">{error}</Invalid> || ""}
-    </div>
+    </>
   );
 };
 

@@ -39,17 +39,11 @@ function App() {
                       <Route path=":objectName" element={<CreateObject />} />
                     </Route>
                     <Route path="edit">
-                      <Route
-                        path=":objectName/:objectId"
-                        element={<EditObject />}
-                      />
+                      <Route path=":objectName/:objectId" element={<EditObject />} />
                     </Route>
                     <Route path="/findOrCreate" element={<FindOrCreate />} />
                     <Route path="view">
-                      <Route
-                        path=":objectView/:objectName/:objectId"
-                        element={<ViewObject key={Math.random()} />}
-                      />
+                      <Route path=":objectView/:objectName/:objectId" element={<ViewObject key={Math.random()} />} />
                     </Route>
                     <Route path="/admin/verify_settings" element={<VerifySettings/>} />
                   </Route>
