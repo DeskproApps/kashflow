@@ -169,7 +169,6 @@ export const Main = () => {
           metadata={invoiceJson.list}
           idKey={invoiceJson.idKey}
           title={`Invoices (${invoices.length})`}
-          internalUrl={invoiceJson.internalUrl + customerId}
           externalUrl={invoiceJson.externalUrl}
           internalChildUrl={invoiceJson.internalChildUrl}
           externalChildUrl={invoiceJson.externalChildUrl}
