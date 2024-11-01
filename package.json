@@ -29,7 +29,7 @@
     "react-flatpickr": "^3.10.13",
     "react-hook-form": "^7.45.4",
     "react-is": "^18.2.0",
-    "react-router-dom": "^6.15.0",
+    "react-router-dom": "^6.27.0",
     "styled-components": "^5.3.11",
     "zod": "^3.22.4"
   },
