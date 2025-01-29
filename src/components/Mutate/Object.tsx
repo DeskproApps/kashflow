@@ -53,7 +53,7 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
   const navigate = useNavigate();
   const [schema, setSchema] = useState<ZodTypeAny | null>(null);
   const { linkCustomer } = useLinkCustomer();
-  const { context } = useDeskproLatestAppContext();
+  const { context } = useDeskproLatestAppContext<{ user: { name: string, primaryEmail: string } }, never>();
 
   const { getLinkedCustomer } = useLinkCustomer();
 
@@ -117,11 +117,11 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
     //@ts-ignore
     (client, data) => {
       switch (
-        `${objectName}-${isEditMode}` as
-          | "Customer-false"
-          | "Customer-true"
-          | "Invoice-false"
-          | "Invoice-true"
+      `${objectName}-${isEditMode}` as
+      | "Customer-false"
+      | "Customer-true"
+      | "Invoice-false"
+      | "Invoice-true"
       ) {
         case "Customer-false":
           return createCustomer(client, data as ICustomer);
@@ -206,9 +206,9 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
     if (isEditMode || objectName !== "Customer" || !context) return;
 
     reset({
-      Name: context.data.user.name,
-      Email: context.data.user.primaryEmail,
-    } as ICustomer);
+      Name: context?.data?.user.name,
+      Email: context?.data?.user.primaryEmail,
+    } as unknown as ICustomer);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditMode, objectName]);
@@ -261,21 +261,21 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
       objectName === "Customer"
         ? getCustomerSchema(correctJson.create, newObj)
         : getInvoiceSchema(correctJson.create, {
-            ...newObj,
-            Lines: z.array(
-              z.object({
-                anyType: z.array(
-                  z.object({
-                    Quantity: z.number(),
-                    Rate: z.number(),
-                    Description: z.string(),
-                    ChargeType: z.string().optional(),
-                    ProductID: z.string().optional(),
-                  })
-                ),
-              })
-            ),
-          })
+          ...newObj,
+          Lines: z.array(
+            z.object({
+              anyType: z.array(
+                z.object({
+                  Quantity: z.number(),
+                  Rate: z.number(),
+                  Description: z.string(),
+                  ChargeType: z.string().optional(),
+                  ProductID: z.string().optional(),
+                })
+              ),
+            })
+          ),
+        })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditMode, objectName]);
@@ -371,7 +371,7 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
                   required={true}
                   error={
                     !!errors[
-                      `Lines.0.anyType.${i}.Description` as keyof IInvoice
+                    `Lines.0.anyType.${i}.Description` as keyof IInvoice
                     ]
                   }
                 />
@@ -388,7 +388,7 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
                   }
                   error={
                     !!errors[
-                      `Lines.0.anyType.${i}.ChargeType` as keyof IInvoice
+                    `Lines.0.anyType.${i}.ChargeType` as keyof IInvoice
                     ]
                   }
                 />
@@ -405,7 +405,7 @@ export const MutateObject = ({ objectId, objectName }: Props) => {
                     }
                     error={
                       !!errors[
-                        `Lines.0.anyType.${i}.ProductID` as keyof IInvoice
+                      `Lines.0.anyType.${i}.ProductID` as keyof IInvoice
                       ]
                     }
                   />
