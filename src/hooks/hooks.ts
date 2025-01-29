@@ -7,33 +7,33 @@ import { useNavigate } from "react-router-dom";
 import { query } from "../utils/query";
 
 export const useLinkCustomer = () => {
-  const { context } = useDeskproLatestAppContext();
+  const { context } = useDeskproLatestAppContext<{ user: { id: number } }, never>();
   const { client } = useDeskproAppClient();
   const [isLinking, setIsLinking] = useState(false);
   const navigate = useNavigate();
 
-  const deskproUser = context?.data.user;
+  const deskproUser = context?.data?.user;
 
   const linkCustomer = useCallback(
     async (customerId: string) => {
-      if (!context || !customerId || !client) return;
+      const deskproUser = context?.data?.user;
+      if (!context || !customerId || !client || !deskproUser) return;
 
       setIsLinking(true);
 
-      const deskproUser = context?.data.user;
 
       const getEntityAssociationData = (await client
-        ?.getEntityAssociation("kashflowCustomers", deskproUser.id)
+        ?.getEntityAssociation("kashflowCustomers", String(deskproUser.id))
         .list()) as string[];
 
       if (getEntityAssociationData.length > 0) {
         await client
-          ?.getEntityAssociation("kashflowCustomers", deskproUser.id)
+          ?.getEntityAssociation("kashflowCustomers", String(deskproUser.id))
           .delete(getEntityAssociationData[0]);
       }
 
       await client
-        ?.getEntityAssociation("kashflowCustomers", deskproUser.id)
+        ?.getEntityAssociation("kashflowCustomers", String(deskproUser.id))
         .set(customerId);
 
       query.clear();
@@ -50,7 +50,7 @@ export const useLinkCustomer = () => {
     if (!client || !deskproUser) return;
 
     return await client
-      .getEntityAssociation("kashflowCustomers", deskproUser.id)
+      .getEntityAssociation("kashflowCustomers", String(deskproUser.id))
       .list();
   }, [client, deskproUser]);
 
@@ -62,7 +62,7 @@ export const useLinkCustomer = () => {
     if (!id) return;
 
     await client
-      .getEntityAssociation("kashflowCustomers", deskproUser.id)
+      .getEntityAssociation("kashflowCustomers", String(deskproUser?.id))
       .delete(id);
   }, [client, context, deskproUser, getLinkedCustomer]);
 
