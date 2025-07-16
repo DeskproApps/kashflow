@@ -1,16 +1,16 @@
 import { useState, useCallback } from "react";
 import styled from "styled-components";
 import { P1, TSpan, Stack, Button } from "@deskpro/deskpro-ui";
-import { useDeskproAppEvents, useDeskproAppClient } from "@deskpro/app-sdk";
+import { useDeskproAppEvents, useDeskproAppClient, DeskproAppTheme } from "@deskpro/app-sdk";
 import { getCurrentCompany } from "../../api/preInstallApi";
 import type { FC } from "react";
 import type { ICompany } from "../../types/company";
 
-const Invalid = styled(TSpan)`
+const Invalid = styled(TSpan)<DeskproAppTheme>`
   color: ${({ theme }) => theme.colors.red100};
 `;
 
-const Valid = styled.span`
+const Valid = styled.span<DeskproAppTheme>`
   color: ${({ theme }) => theme.colors.grey100};
 `;
 
